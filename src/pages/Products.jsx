@@ -30,7 +30,15 @@ export default function Products() {
   return (
     <>
       <h1>Products</h1>
-      <div className="grid">{renderProducts}</div>
+      {/* <input
+        type="text"
+        placeholder="Search"
+        value={searchString}
+        onChange={(e) => {
+          setSearchString(e.target.value);
+        }}
+      /> */}
+      <div className="grid w-full grid-cols-3 gap-3">{renderProducts}</div>
     </>
   );
 }
