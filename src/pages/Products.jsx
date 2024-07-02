@@ -1,21 +1,36 @@
 import ProductCard from "../components/ProductCard";
 import axiosInstance from "../axios/axios.jsx";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Products() {
+  const params = useParams();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [searchedProducts, setSearchedProducts] = useState([]);
   const [searchString, setSearchString] = useState("");
 
   const getProducts = async () => {
-    const response = await axiosInstance.get("/products");
-    setProducts(response.data);
-    setSearchedProducts(response.data);
+    if (params.categoryName) {
+      const response = await axiosInstance.get(
+        `/products/category/${params.categoryName}`
+      );
+      setProducts(response.data);
+      setSearchedProducts(response.data);
+
+      if (!response.data.length) {
+        navigate("/products");
+      }
+    } else {
+      const response = await axiosInstance.get("/products");
+      setProducts(response.data);
+      setSearchedProducts(response.data);
+    }
   };
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [params]);
 
   useEffect(() => {
     // apply filteration
